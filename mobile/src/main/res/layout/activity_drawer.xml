@@ -1,0 +1,19 @@
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sandbox_drawer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="more.sandbox.DrawerActivity">
+
+    <FrameLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <more.sandbox.views.DrawerView
+        android:id="@+id/drawer_view"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:background="@color/white">
+    </more.sandbox.views.DrawerView>
+</android.support.v4.widget.DrawerLayout>
