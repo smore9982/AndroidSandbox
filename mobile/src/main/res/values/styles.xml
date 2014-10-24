@@ -1,6 +1,16 @@
 <resources>
 
     <!-- Base application theme. -->
+    <style name="MaterialSandboxTheme" parent="@style/Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/bright_green</item>
+        <item name="colorPrimaryDark">@color/dark_green</item>
+        <item name="colorAccent">@color/dark_green</item>
+
+    </style>
+
+
+
+
     <style name="SandboxTheme" parent="@style/Theme.AppCompat.Light">
        <item name="actionBarStyle">@style/ActionBarStyle</item>
        <item name="actionBarTabStyle">@style/ActionBarTabStyle</item>

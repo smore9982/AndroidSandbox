@@ -2,8 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="more.sandbox.activities.WidgetActivity" >
-    <item android:id="@+id/action_settings"
+
+    <item android:id="@+id/action_drawer"
+          android:title="@string/action_drawer"
+          android:orderInCategory="100"
+          android:icon="@drawable/menu_drawer"
+          app:showAsAction="always" />
+    <item
+        android:id="@+id/action_settings"
         android:title="@string/action_settings"
-        android:orderInCategory="100"
         app:showAsAction="never" />
 </menu>

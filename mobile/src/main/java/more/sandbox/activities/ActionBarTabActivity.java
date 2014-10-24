@@ -9,10 +9,8 @@ import android.support.v7.app.ActionBar;
 
 import more.sandbox.BaseActivity;
 import more.sandbox.R;
-import more.sandbox.fragments.tabs.FirstFragment;
 import more.sandbox.fragments.tabs.RecyclerViewFragment;
 import more.sandbox.fragments.tabs.SandboxFragmentInterface;
-import more.sandbox.fragments.tabs.SecondFragment;
 
 
 public class ActionBarTabActivity extends BaseActivity {
@@ -34,10 +32,10 @@ public class ActionBarTabActivity extends BaseActivity {
     private void initalizeTabs(){
 
         ActionBar.Tab[] screens = {
-                                    actionBar.newTab().setIcon(R.drawable.icon_map).setTag("Screen1"),
-                                    actionBar.newTab().setIcon(R.drawable.icon_disk).setTag("Screen2"),
-                                    actionBar.newTab().setIcon(R.drawable.icon_map).setTag("Screen3"),
-                                    actionBar.newTab().setIcon(R.drawable.icon_disk).setTag("Screen4")};
+                actionBar.newTab().setIcon(R.drawable.icon_map).setTag("RecyclerView"),
+                actionBar.newTab().setIcon(R.drawable.icon_map).setTag("RecyclerView")
+        };
+
         for(int i=0;i<screens.length;i++){
             actionBar.addTab(screens[i].setTabListener(new SanboxTabListener()));
         }
@@ -76,11 +74,7 @@ public class ActionBarTabActivity extends BaseActivity {
             ActionBar.Tab screenTab = screens[i];
             String screen = (String)screenTab.getTag();
             Fragment x = new Fragment();
-            if(screen.equalsIgnoreCase("Screen1")){
-                return FirstFragment.newInstance("","");
-            }else if(screen.equalsIgnoreCase("Screen2")){
-                return SecondFragment.newInstance("","");
-            }else if(screen.equalsIgnoreCase("Screen3")){
+            if(screen.equalsIgnoreCase("RecyclerView")){
                 return RecyclerViewFragment.newInstance();
             }
             return x;

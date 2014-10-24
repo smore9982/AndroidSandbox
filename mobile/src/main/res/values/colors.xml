@@ -4,5 +4,7 @@
     <color name="orange">#ff5500</color>
     <color name="pink">#ff55aa</color>
     <color name="blue">#0000ff</color>
+    <color name="bright_green">#00ff00</color>
+    <color name="dark_green">#007700</color>
 
 </resources>
