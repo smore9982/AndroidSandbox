@@ -5,20 +5,22 @@
         <item name="colorPrimary">@color/bright_green</item>
         <item name="colorPrimaryDark">@color/dark_green</item>
         <item name="colorAccent">@color/dark_green</item>
-
+        <item name="actionBarTabStyle">@style/ActionBarTabStyle</item>
+        <item name="actionBarDivider">@null</item>
+        <item name="windowActionBar">false</item>
     </style>
-
-
-
 
     <style name="SandboxTheme" parent="@style/Theme.AppCompat.Light">
-       <item name="actionBarStyle">@style/ActionBarStyle</item>
-       <item name="actionBarTabStyle">@style/ActionBarTabStyle</item>
-        <item name="android:windowActionBarOverlay">true</item>
-       <!-- Sets the divider drawable -->
-       <item name="actionBarDivider">@null</item>
+        <item name="colorPrimary">@color/bright_green</item>
+        <item name="colorPrimaryDark">@color/dark_green</item>
+        <item name="colorAccent">@color/dark_green</item>
+        <item name="actionBarTabStyle">@style/ActionBarTabStyle</item>
+        <item name="actionBarDivider">@null</item>
 
     </style>
+
+
+
 
      <!-- Action Bar Specific Style -->
     <style name="ActionBarStyle" parent="@style/Widget.AppCompat.ActionBar">
@@ -44,11 +46,10 @@
         <item name="android:background">@drawable/tab_background</item>
         -->
         <item name="android:gravity">center_horizontal</item>
-        <item name="android:paddingLeft">2dp</item>
-        <item name="android:paddingRight">2dp</item>
-        <item name="android:layout_width">0dip</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:minWidth">20dp</item>
+        <item name="android:paddingLeft">1dp</item>
+        <item name="android:paddingRight">1dp</item>
+        <item name="android:layout_width">1dip</item>
+        <item name="android:minWidth">1dp</item>
     </style>
 
 </resources>

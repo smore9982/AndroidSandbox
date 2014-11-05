@@ -4,16 +4,25 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/rotateButton"
+        android:id="@+id/removeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Rotate"
+        android:text="Remove"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/addButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        android:layout_toRightOf="@id/removeButton"
         android:layout_marginBottom="10dp"/>
 
 
     <!-- A RecyclerView with some commonly used attributes -->
     <android.support.v7.widget.RecyclerView
-        android:layout_below="@id/rotateButton"
+        android:layout_below="@id/removeButton"
         android:id="@+id/sandbox_recyclerView"
         android:scrollbars="vertical"
         android:layout_width="match_parent"

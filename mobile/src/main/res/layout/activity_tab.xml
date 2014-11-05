@@ -1,9 +1,28 @@
-<android.support.v4.view.ViewPager
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/pager"
-    tools:context="more.sandbox.activities.ActionBarTabActivity"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tab_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="?attr/colorPrimary"/>
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/second_tab_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/blue"
+        android:layout_below="@id/tab_toolbar"
+        android:gravity="center_horizontal"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        tools:context="more.sandbox.activities.ActionBarTabActivity"
+        android:layout_below="@id/second_tab_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>

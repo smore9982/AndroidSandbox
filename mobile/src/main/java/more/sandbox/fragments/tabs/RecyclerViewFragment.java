@@ -6,6 +6,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Layout;
 import android.view.LayoutInflater;
@@ -19,14 +21,20 @@ import android.support.v7.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * A simple {@link Fragment} subclass.
  *
  */
 public class RecyclerViewFragment extends Fragment implements SandboxFragmentInterface {
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private RecyclerAdp mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private Button removeButton;
+    private Button addButton;
 
     final String[] items = {"http://lorempixel.com/400/200/",
                             "http://lorempixel.com/600/200/",
@@ -64,10 +72,32 @@ public class RecyclerViewFragment extends Fragment implements SandboxFragmentInt
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recyclerview,container,false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.sandbox_recyclerView);
-        mLayoutManager = new LinearLayoutManager(this.getActivity());
+        mLayoutManager = new GridLayoutManager(this.getActivity(),3);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new RecyclerAdp(inflater,items);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        ArrayList<String> arrayList = new ArrayList<String>(Arrays.asList(items));
+        mAdapter = new RecyclerAdp(inflater, arrayList);
         mRecyclerView.setAdapter(mAdapter);
+
+        addButton = (Button) view.findViewById(R.id.addButton);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAdapter.addItem("http://lorempixel.com/800/800/");
+                mRecyclerView.scrollToPosition(mAdapter.getItemCount()-1);
+            }
+        });
+
+        removeButton = (Button)view.findViewById(R.id.removeButton);
+        removeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAdapter.removeItem(0);
+            }
+        });
+
+
         return view;
     }
 
@@ -78,9 +108,9 @@ public class RecyclerViewFragment extends Fragment implements SandboxFragmentInt
 
 
     class RecyclerAdp extends  RecyclerView.Adapter<RecyclerHolder>{
-        String[] items;
+        List<String> items;
         LayoutInflater inflater;
-        public RecyclerAdp(LayoutInflater inflater, String[] items) {
+        public RecyclerAdp(LayoutInflater inflater, List<String> items) {
             this.inflater = inflater;
             this.items = items;
         }
@@ -98,15 +128,25 @@ public class RecyclerViewFragment extends Fragment implements SandboxFragmentInt
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
             ImageView iv = holder.mCardImageView;
-            holder.mCardTextView.setText(items[position]);
+            //holder.mCardTextView.setText(items[position]);
             Picasso.with(iv.getContext()).cancelRequest(iv);
-            Picasso.with(iv.getContext()).load(items[position]).into(iv);
+            Picasso.with(iv.getContext()).load(items.get(position)).into(iv);
             holder.itemView.setTag(position);
         }
 
         @Override
         public int getItemCount() {
-            return items.length;
+            return items.size();
+        }
+
+        public void removeItem(int position){
+            this.items.remove(position);
+            this.notifyItemRemoved(position);
+        }
+
+        public void addItem(String item){
+            this.items.add(item);
+            this.notifyItemInserted(items.size()-1);
         }
     }
 

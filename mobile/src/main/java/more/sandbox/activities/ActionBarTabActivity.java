@@ -1,21 +1,33 @@
 package more.sandbox.activities;
 
+import android.nfc.Tag;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+
+import com.google.android.gms.internal.ne;
 
 import more.sandbox.BaseActivity;
 import more.sandbox.R;
+import more.sandbox.fragments.tabs.ExtrasFragment;
 import more.sandbox.fragments.tabs.RecyclerViewFragment;
 import more.sandbox.fragments.tabs.SandboxFragmentInterface;
+import more.sandbox.views.SlidingTabLayout;
 
 
 public class ActionBarTabActivity extends BaseActivity {
 
     private ActionBar actionBar;
+    private Toolbar toolbar;
+    private Toolbar toolbar2;
     private ViewPager pager;
     private SandboxPagerAdapter mTabsAdapter;
 
@@ -24,58 +36,51 @@ public class ActionBarTabActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab);
         actionBar = this.getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         pager = (ViewPager) this.findViewById(R.id.pager);
+        toolbar = (Toolbar) this.findViewById(R.id.tab_toolbar);
+        toolbar2 = (Toolbar) this.findViewById(R.id.second_tab_toolbar);
+        this.setSupportActionBar(toolbar);
+
         initalizeTabs();
+        this.showActionBarToggleSymbol(false);
     }
 
     private void initalizeTabs(){
 
-        ActionBar.Tab[] screens = {
-                actionBar.newTab().setIcon(R.drawable.icon_map).setTag("RecyclerView"),
-                actionBar.newTab().setIcon(R.drawable.icon_map).setTag("RecyclerView")
+        Tab[] screens = {
+            new Tab().setTitle("Fragment1").setTag("RecyclerView").setIconRes(R.drawable.icon_map),
+            new Tab().setTitle("Fragment2").setTag("RecyclerView").setIconRes(R.drawable.icon_map),
+            new Tab().setTitle("Fragment3").setTag("RecyclerView").setIconRes(R.drawable.icon_map),
+            new Tab().setTitle("Fragment4").setTag("RecyclerView").setIconRes(R.drawable.icon_map),
+            new Tab().setTitle("Fragment5").setTag("ExtrasView").setIconRes(R.drawable.icon_map),
         };
-
-        for(int i=0;i<screens.length;i++){
-            actionBar.addTab(screens[i].setTabListener(new SanboxTabListener()));
-        }
 
         pager.setAdapter(mTabsAdapter = new SandboxPagerAdapter(this.getSupportFragmentManager(),screens));
         pager.setOnPageChangeListener(mTabsAdapter);
-    }
 
-    class SanboxTabListener implements ActionBar.TabListener{
-        @Override
-        public void onTabSelected(ActionBar.Tab tab, android.support.v4.app.FragmentTransaction fragmentTransaction) {
-            pager.setCurrentItem(tab.getPosition());
-        }
-
-        @Override
-        public void onTabUnselected(ActionBar.Tab tab, android.support.v4.app.FragmentTransaction fragmentTransaction) {
-
-        }
-
-        @Override
-        public void onTabReselected(ActionBar.Tab tab, android.support.v4.app.FragmentTransaction fragmentTransaction) {
-
-        }
+        SlidingTabLayout tabLayout = new SlidingTabLayout(this);
+        tabLayout.setViewPager(pager);
+        tabLayout.setOnPageChangeListener(mTabsAdapter);
+        toolbar2.addView(tabLayout, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     }
 
     class SandboxPagerAdapter extends FragmentStatePagerAdapter implements ViewPager.OnPageChangeListener {
 
-        ActionBar.Tab[] screens;
-        public SandboxPagerAdapter(FragmentManager fm, ActionBar.Tab[] screens){
+        Tab[] screens;
+        public SandboxPagerAdapter(FragmentManager fm, Tab[] screens){
             super(fm);
             this.screens = screens;
         }
 
         @Override
         public Fragment getItem(int i) {
-            ActionBar.Tab screenTab = screens[i];
+            Tab screenTab = screens[i];
             String screen = (String)screenTab.getTag();
             Fragment x = new Fragment();
             if(screen.equalsIgnoreCase("RecyclerView")){
                 return RecyclerViewFragment.newInstance();
+            }else if (screen.equals("ExtrasView")){
+                return ExtrasFragment.newInstance();
             }
             return x;
         }
@@ -94,16 +99,58 @@ public class ActionBarTabActivity extends BaseActivity {
         public void onPageSelected(int i) {
             if(mTabsAdapter.getItem(i) instanceof SandboxFragmentInterface ) {
                 SandboxFragmentInterface frag = (SandboxFragmentInterface) mTabsAdapter.getItem(i);
-                frag.setTitle(ActionBarTabActivity.this);
+                //frag.setTitle(ActionBarTabActivity.this);
             }else{
                 ActionBarTabActivity.this.setTitle("Activity");
             }
-            getSupportActionBar().setSelectedNavigationItem(i);
+        }
+
+        @Override
+        public java.lang.CharSequence getPageTitle(int position){
+            Tab tab = screens[position];
+            return tab.getTitle();
         }
 
         @Override
         public void onPageScrollStateChanged(int i) {
 
+        }
+    }
+
+    class Tab{
+        private String title;
+        private int iconRes;
+        private String tag;
+
+        public Tab newTab(){
+            return new Tab();
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public Tab setTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public int getIconRes() {
+            return iconRes;
+        }
+
+        public Tab setIconRes(int iconRes) {
+            this.iconRes = iconRes;
+            return this;
+        }
+
+        public String getTag() {
+            return tag;
+        }
+
+        public Tab setTag(String tag) {
+            this.tag = tag;
+            return this;
         }
     }
 }

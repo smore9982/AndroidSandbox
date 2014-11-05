@@ -3,6 +3,7 @@ package more.sandbox;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import more.sandbox.activities.ActionBarTabActivity;
+import more.sandbox.activities.SandboxWebviewActivity;
 import more.sandbox.activities.WidgetActivity;
 import more.sandbox.views.DrawerView;
 
@@ -24,6 +26,7 @@ import java.util.List;
  * Created by more on 10/20/14.
  */
 public class DrawerActivity extends ActionBarActivity {
+    ActionBar actionBar;
     DrawerLayout drawer;
     ViewGroup content;
     DrawerView drawerContainer;
@@ -33,6 +36,7 @@ public class DrawerActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_drawer);
+        actionBar = this.getSupportActionBar();
         drawer = (DrawerLayout)this.findViewById(R.id.sandbox_drawer);
         content =(ViewGroup)this.findViewById(R.id.content);
         drawerContainer = (more.sandbox.views.DrawerView)this.findViewById(R.id.drawer_view);
@@ -40,37 +44,42 @@ public class DrawerActivity extends ActionBarActivity {
         List<DrawerListItem> items = new ArrayList<DrawerListItem>();
         DrawerListItem item1 = new DrawerListItem("Tabs Sample",R.drawable.icon_disk,"TabsSample", ActionBarTabActivity.class);
         DrawerListItem item2 = new DrawerListItem("Widget Box",R.drawable.icon_disk,"WidgetBox", WidgetActivity.class);
+        DrawerListItem item3 = new DrawerListItem("WebView",R.drawable.icon_disk,"WebView", SandboxWebviewActivity.class);
         items.add(item2);
         items.add(item1);
+        items.add(item3);
         DrawerListAdapter adp = new DrawerListAdapter(items);
         drawerContainer.setTopImage(R.drawable.ic_launcher);
         drawerContainer.setListAdapter(adp);
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, drawer, R.string.drawer_open, R.string.drawer_close){
-            /** Called when a drawer has settled in a completely closed state. */
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-                //getActionBar().setTitle(mTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
+        if(actionBar != null) {
+            mDrawerToggle = new ActionBarDrawerToggle(this, drawer, R.string.drawer_open, R.string.drawer_close){
+                /** Called when a drawer has settled in a completely closed state. */
+                public void onDrawerClosed(View view) {
+                    super.onDrawerClosed(view);
+                    //getActionBar().setTitle(mTitle);
+                    invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                }
 
-            /** Called when a drawer has settled in a completely open state. */
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                //getActionBar().setTitle(mDrawerTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
-        };
-        drawer.setDrawerListener(mDrawerToggle);
-        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        this.getSupportActionBar().setHomeButtonEnabled(true);
+                /** Called when a drawer has settled in a completely open state. */
+                public void onDrawerOpened(View drawerView) {
+                    super.onDrawerOpened(drawerView);
+                    //getActionBar().setTitle(mDrawerTitle);
+                    invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                }
+            };
+            drawer.setDrawerListener(mDrawerToggle);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        mDrawerToggle.syncState();
+        if(mDrawerToggle != null){
+            mDrawerToggle.syncState();
+        }
     }
 
 
@@ -187,6 +196,14 @@ public class DrawerActivity extends ActionBarActivity {
 
         public void setActivityToCall(Class activityToCall) {
             this.activityToCall = activityToCall;
+        }
+    }
+
+    public void showActionBarToggleSymbol(boolean show){
+        if(actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(show);
+        }else{
+
         }
     }
 
